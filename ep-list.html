@@ -19,16 +19,6 @@
         ];
       }
 
-      function getDateArray(date){
-        return [
-          date.getFullYear(),
-          date.getMonth(),
-          date.getDate(),
-          date.getHours(),
-          date.getMinutes(),
-          date.getSeconds(),
-        ];
-      }
       function getUTCDateArray(date){
         return [
           date.getUTCFullYear(),
@@ -39,6 +29,7 @@
           date.getUTCSeconds(),
         ];
       }
+
       function format(year, month, date, hour, min, sec){
         return [
           year,
@@ -53,18 +44,36 @@
         return `https://start=${start}, end=${end}`
       }
 
+      function decorateURL(url){
+        return `<li>${url}</li>`
+      }
+
+      function url_list(urls){
+        let decorated_list = [];
+        for (let url of urls){
+          decorated_list.push(decorateURL(url))
+        }
+        return `<ul>${decorated_list.join("")}</ul>`;
+      }
+
       document.getElementById("jst").innerHTML = "JST:" + format(...getDateArray(today));
       document.getElementById("utc").innerHTML = "UTC:" + format(...utcary);
       var input_start = document.getElementById("input_start").value
       var input_end   = document.getElementById("input_end").value
+
+      urls = [
+        makeEndPoit("2019/07/20", "2019/08/20"),
+        makeEndPoit("2019/07/21", "2019/08/21"),
+        makeEndPoit(input_start , input_end   ),
+      ];
+
       document.getElementById("start").innerHTML = input_start;
       document.getElementById("end").innerHTML = input_end;
-      document.getElementById("url").innerHTML = makeEndPoit(input_start, input_end);
+      //document.getElementById("url").innerHTML = '<div>' + makeEndPoit(input_start, input_end) + '</div>';
+      document.getElementById("url").innerHTML = url_list(urls);
     }
 
-    //document.getElementById("date").onclick = function(){
-    //  myFunction();
-    //}
+
   </script>
     <p id="jst">日本標準時</p>
     <p id="utc">UTC</p>

@@ -1,0 +1,88 @@
+<html>
+  <head>
+  </head>
+  <body>
+  <script>
+    function getDateString() {
+      var today = new Date();
+      var utcary = getUTCDateArray(today); 
+      //var utc = new Date(Date.UTC(...getDate(today)));
+
+      function getDateArray(date){
+        return [
+          date.getFullYear(),
+          date.getMonth(),
+          date.getDate(),
+          date.getHours(),
+          date.getMinutes(),
+          date.getSeconds(),
+        ];
+      }
+
+      function getDateArray(date){
+        return [
+          date.getFullYear(),
+          date.getMonth(),
+          date.getDate(),
+          date.getHours(),
+          date.getMinutes(),
+          date.getSeconds(),
+        ];
+      }
+      function getUTCDateArray(date){
+        return [
+          date.getUTCFullYear(),
+          date.getUTCMonth(),
+          date.getUTCDate(),
+          date.getUTCHours(),
+          date.getUTCMinutes(),
+          date.getUTCSeconds(),
+        ];
+      }
+      function format(year, month, date, hour, min, sec){
+        return [
+          year,
+          month + 1, // https://stackoverflow.com/questions/344380/why-is-january-month-0-in-java-calendar
+          date,
+        ].join('/') + ' ' + [
+           hour, min, sec,
+        ].join(':')
+      }
+
+      function makeEndPoit(start, end){
+        return `https://start=${start}, end=${end}`
+      }
+
+      document.getElementById("jst").innerHTML = "JST:" + format(...getDateArray(today));
+      document.getElementById("utc").innerHTML = "UTC:" + format(...utcary);
+      var input_start = document.getElementById("input_start").value
+      var input_end   = document.getElementById("input_end").value
+      document.getElementById("start").innerHTML = input_start;
+      document.getElementById("end").innerHTML = input_end;
+      document.getElementById("url").innerHTML = makeEndPoit(input_start, input_end);
+    }
+
+    //document.getElementById("date").onclick = function(){
+    //  myFunction();
+    //}
+  </script>
+    <p id="jst">日本標準時</p>
+    <p id="utc">UTC</p>
+    <button onclick="getDateString()">OK</button>
+
+    <div>
+      start:<input id="input_start" type="text" name="fname"><br>
+      end:<input id="input_end"   type="text" name="fname"><br>
+    </div>
+
+
+
+    <ul>
+      <li id="start">start</li>
+      <li id="end">end</li>
+      <li id="url">url</li>
+      <li><a href="">https://www.yoursite.com?start={id1}&end={id2}URL link</a></li>
+      <li><a href="">https://www.yoursite.com?start={id1}&end={id2}URL link/a></li>
+    </ul>
+  </body>
+</html>

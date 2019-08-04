@@ -1,0 +1,12 @@
+jq '.Metrics' list-metrics.json
+jq '.Metrics | .[]?' list-metrics.json
+jq '.Metrics | .[] | length' list-metrics.json
+jq '.Metrics | length' list-metrics.json
+jq '.Metrics | .[] | length' list-metrics.json
+jq '.Metrics | .[1]' list-metrics.json
+jq '.Metrics | .[1] | in("AWS/SNS")' list-metrics.json
+jq '.Metrics | .[1] | in("Namespace")' list-metrics.json
+jq '.Metrics | .[1] | in("AWS/SNS")' list-metrics.json
+jq '.Metrics | .[1] | select(.Namespace == "AWS/SNS")' list-metrics.json
+jq '.Metrics | .[] | .Dimensions | .[] | select(.Value == "CFO")' list-metrics.json
+

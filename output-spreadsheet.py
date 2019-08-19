@@ -66,6 +66,7 @@ def clipCells(sheet, target_cell, row_width=1, column_width=1):
 
 # read_filename = 'books.odp' #! not support
 read_filename = 'books.xlsx'
+output_filename = 'books2.xlsx'
 
 # wb = Workbook()
 wb = load_workbook(read_filename)
@@ -74,7 +75,7 @@ wb = load_workbook(read_filename)
 
 
 sheets = wb.worksheets
-#sheets = wb.sheetnames
+# sheets = wb.sheetnames
 
 for sheet in sheets:
     print(sheet)
@@ -90,22 +91,52 @@ for sheet in sheets:
                         for c in r:
                             print(c.value)
 
+# for row in ws.iter_rows(min_row=2):
+# for column in ws.iter_columns(min_column=2):
 
 cells = []
-for sheet in sheets:
-    cells = matchCells(sheet, "Effective")
-    print(len(cells))
-    for cell in cells:
-        print("{}[{},{}]".format(cell.value,cell.row, cell.column))
+# sheet = sheets[0]
+# sheet = sheets.get_sheet_by_name('books')
+sheet = wb.get_sheet_by_name('books')
 
+cells = matchCells(sheet, "Effective")
+for c in cells:
+    print(c.value)
+# for sheet in sheets:
+#     cells = matchCells(sheet, "Effective")
+#     print(len(cells))
+#     print(cells)
+#     for cell in cells:
+#         print("{}[{},{}]".format(cell.value, cell.row, cell.column))
 
-assert(False)
+# sheet = wb.active
+ws1 = wb.create_sheet('destination')
+print(ws1.title)
 
+print(type(cells))
+for i, cell in enumerate(cells, start=1):
+    print("{}.{} {}".format(i, type(cell), cell.value))
+    print("({0.row},{0.column})={0.value}".format(cell))
+    ws1.cell(row=i, column=1, value=cell.value)
+    # ws1.cell(row=cell.row, column=cell.column, value=cell.value)
+    #print("{}".format(dir(row)))
+    # ws1.cell(row=cell.row,column=cell.column,value=cell.value)
+    # for j, cell in enumerate(row):
+    #     print("{}] = {}".format(j, cell))
+    #     # ws1.cell(row=i, column=j, value=cell.value)
+    #     ws1.cell(row=i, column=j).value = 2
+    #     # ws1.cell(*cell)
+    #     # ws1['A1'] = cell
+    #     # ws1['A1'] = i
+    #     print("cell = {}".format(cell))
 
+#wb.save(read_filename)
+#wb.save(read_filename)
+wb.save(output_filename)
 
-ws1 = wb.active
-ws1.title = "range names"
-ws1.sheet_properties.tabColor = "1072BA"
+# ws1 = wb.active
+# ws1.title = "range names"
+# ws1.sheet_properties.tabColor = "1072BA"
 
 #for row in range(1, 40):
 #    ws1.append(range(600))
@@ -113,7 +144,7 @@ ws1.sheet_properties.tabColor = "1072BA"
 # [print(elem) for elem in dir(ws1.columns)]
 # [print(elem) for elem in dir(ws1.rows)]
 
-#assert False
+assert(False)
 ws2 = wb.copy_worksheet(ws1)
 ws2.title = "copied sheet"
 #ws2.copy_worksheet(ws1)

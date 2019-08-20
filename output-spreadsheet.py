@@ -11,7 +11,7 @@ from openpyxl import load_workbook
 
 
 def iscontain(cell, target):
-    if cell.value == None:
+    if cell.value is None:
         return False
 
     TARGET_VALUE_PATTERN = re.compile(target)
@@ -22,7 +22,7 @@ def iscontain(cell, target):
 
 def isempty(sheet):
     if sheet.max_row == 1 and sheet.max_column == 1 \
-            and sheet['A1'].value == None:
+            and sheet['A1'].value is None:
         return True
 
     return False
@@ -85,7 +85,7 @@ for sheet in sheets:
         for row in sheet:
             for cell in row:
                 if iscontain(cell, "statistics"):
-                    selected_cells = clipCells(sheet, cell, 9, 1)
+                    selected_cells = clipCells(sheet, cell, 3, 2)
                     print(selected_cells)
                     for r in selected_cells:
                         for c in r:
@@ -99,8 +99,10 @@ cells = []
 # sheet = sheets.get_sheet_by_name('books')
 sheet = wb.get_sheet_by_name('books')
 
-cells = matchCells(sheet, "Effective")
+#cells = matchCells(sheet, "Effective")
+cells = matchCells(sheet, "機械学習")
 for c in cells:
+    cells = clipCells(sheet, c, row_width=3, column_width=2)
     print(c.value)
 # for sheet in sheets:
 #     cells = matchCells(sheet, "Effective")
@@ -114,21 +116,28 @@ ws1 = wb.create_sheet('destination')
 print(ws1.title)
 
 print(type(cells))
-for i, cell in enumerate(cells, start=1):
-    print("{}.{} {}".format(i, type(cell), cell.value))
-    print("({0.row},{0.column})={0.value}".format(cell))
-    ws1.cell(row=i, column=1, value=cell.value)
-    # ws1.cell(row=cell.row, column=cell.column, value=cell.value)
-    #print("{}".format(dir(row)))
-    # ws1.cell(row=cell.row,column=cell.column,value=cell.value)
-    # for j, cell in enumerate(row):
-    #     print("{}] = {}".format(j, cell))
-    #     # ws1.cell(row=i, column=j, value=cell.value)
-    #     ws1.cell(row=i, column=j).value = 2
-    #     # ws1.cell(*cell)
-    #     # ws1['A1'] = cell
-    #     # ws1['A1'] = i
-    #     print("cell = {}".format(cell))
+
+for i, row in enumerate(cells, start=1):
+    for j, cell in enumerate(row, start=1):
+        print("{},{}, cell={}".format(i, j, cell.value))
+        ws1.cell(row=i, column=j, value=cell.value)
+
+
+# for i, cell in enumerate(cells, start=1):
+#     print("{}.{} {}".format(i, type(cell), cell.value))
+#     print("({0.row},{0.column})={0.value}".format(cell))
+#     ws1.cell(row=i, column=1, value=cell.value)
+#     # ws1.cell(row=cell.row, column=cell.column, value=cell.value)
+#     #print("{}".format(dir(row)))
+#     # ws1.cell(row=cell.row,column=cell.column,value=cell.value)
+#     # for j, cell in enumerate(row):
+#     #     print("{}] = {}".format(j, cell))
+#     #     # ws1.cell(row=i, column=j, value=cell.value)
+#     #     ws1.cell(row=i, column=j).value = 2
+#     #     # ws1.cell(*cell)
+#     #     # ws1['A1'] = cell
+#     #     # ws1['A1'] = i
+#     #     print("cell = {}".format(cell))
 
 #wb.save(read_filename)
 #wb.save(read_filename)
